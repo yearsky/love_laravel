@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <h1 class="font-bold">FTM</h1>
                     </a>
                 </div>
 
@@ -16,6 +16,16 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('barang')" :active="request()->routeIs('barang')">
+                        {{ __('Barang') }}
+                    </x-nav-link>
+                </div>
+                <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('manajemen')">
+                        {{ __('Manajemen') }}
+                    </x-nav-link>
+                </div> -->
             </div>
 
             <!-- Settings Dropdown -->
@@ -36,6 +46,9 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('profile.user')">
+                            {{ __('Kelola User') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
