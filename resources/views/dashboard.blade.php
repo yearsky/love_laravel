@@ -12,8 +12,8 @@
                     {{ __("Selamat Datang, Berikut merupakan dashboard anda 🎉") }}
                 </div>
                 <div class="flex justify-center gap-3 py-5">
-                    <x-card-dashboard :type="__('masuk')" />
-                    <x-card-dashboard :type="__('keluar')" />
+                    <x-card-dashboard :type="__('masuk')" :count="9" />
+                    <x-card-dashboard :type=" __('keluar')" :count="0" />
                 </div>
             </div>
         </div>

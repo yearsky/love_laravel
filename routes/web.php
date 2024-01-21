@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\PrediksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,13 @@ Route::middleware('auth')->group(function () {
 
     //Barang Controller
     Route::get('/barang', [BarangController::class, 'index'])->name('barang');
+    Route::get('/barang/{id}', [BarangController::class, 'show'])->name('barang.show');
+    Route::post('/barang', [BarangController::class, 'create'])->name('barang.create');
+    Route::delete('/barang/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
+
+    //Prediksi Controller
+    Route::get('/prediksi', [PrediksiController::class, 'index'])->name('prediksi');
+    Route::post('/prediksi', [PrediksiController::class, 'olah'])->name('prediksi.olah');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
