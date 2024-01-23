@@ -19,16 +19,29 @@
 
                     </section>
                 </div>
-                <form method="post" action="{{ route('prediksi.olah') }}" class="flex flex-col items-center max-w-full">
+
+                <form method="get" action="{{ route('prediksi') }}" class="flex flex-col items-center max-w-full">
                     @csrf
                     <div class="flex gap-x-5 justify-center w-full">
+                        <div class="mt-10">
+                            <x-input-label for="Produk" value="{{ __('Produk') }}" />
+
+                            <select name="produk" class="w-full border border-gray-400 rounded-md">
+                                @foreach ($listBarang as $key => $value)
+
+                                <option value="{{$value->id_barang}}" {{ !empty(session('data')['produk']) ? session('data')['produk'] == $value->id_barang ? 'selected' : '' : ''  }}>{{$value->nama_barang}}</option>
+
+                                @endforeach
+                            </select>
+
+                        </div>
                         <div class="mt-10">
                             <x-input-label for="bulan" value="{{ __('Bulan') }}" />
 
                             <select name="bulan" class="w-full border border-gray-400 rounded-md">
                                 @foreach ($months as $key => $value)
 
-                                <option value="{{$key}}">{{$value}}</option>
+                                <option value="{{$key}}" {{ !empty(session('data')['bulan']) ? session('data')['bulan'] == $key ? 'selected' : '' : ''  }}>{{$value}}</option>
 
                                 @endforeach
                             </select>
@@ -38,11 +51,17 @@
                             <x-input-label for="tahun" value="{{ __('Tahun') }}" />
 
                             <select name="tahun" class="w-full border border-gray-400 rounded-md">
-                                <option value="2022">2022</option>
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
+                                @php
+                                $selectedYear = !empty(session('data')['tahun']) ? session('data')['tahun'] : null;
+                                $currentYear = date('Y');
+                                $startYear = $currentYear - 2;
+                                $endYear = $currentYear + 2;
+                                @endphp
+                                @for ($year = $startYear; $year <= $endYear; $year++) <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                    @endfor
                             </select>
+
+
 
                         </div>
                     </div>
@@ -51,6 +70,8 @@
             </div>
         </div>
     </div>
+
+    @if(session('data'))
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
@@ -66,36 +87,27 @@
                     </section>
                 </div>
                 <div class="mt-10 max-w-full">
-                    <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400 shadow-md">
+                    <div class="max-w-full my-10" x-data="{ tab: window.location.hash ? window.location.hash.substring(1) : 'Existing' }" id="tab_wrapper">
+                        <!-- The tabs navigation -->
+                        <nav class="flex gap-x-3 my-5 justify-center">
+                            <a class="p-2 rounded-md" :class="{ 'bg-blue-500 text-white': tab === 'Existing', 'active': tab === 'Existing' }" @click.prevent="tab = 'Existing'; window.location.hash = 'Existing'" href="#">Existing Data</a>
+                            <a class="p-2 rounded-md" :class="{ 'bg-blue-500 text-white': tab === 'prediksi', 'active': tab === 'prediksi' }" @click.prevent="tab = 'prediksi'; window.location.hash = 'prediksi'" href="#">Prediksi Data</a>
+                        </nav>
 
-                        <table id="dataTable" class="dataTable stripe hover row-border cell-border">
-                            <thead>
-                                <tr>
-                                    <th>Tahun</th>
-                                    <th>X</th>
-                                    <th>Y</th>
-                                    <th>X*Y</th>
-                                    <th>X
-                                        <sup>2</sup>
-                                    </th>
-                                    <th>FX</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>2023</td>
-                                    <td>-4</td>
-                                    <td>4</td>
-                                    <td>16</td>
-                                    <td>16</td>
-                                    <td>
-                                        3.641231
-                                    </td>
-                                </tr>
+                        <!-- The tabs content -->
+                        <div x-show="tab === 'Existing'" x-transition>
+                            <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400">
+                                <x-table-existing :data="session('data')['defaultData']" />
+                            </div>
+                        </div>
+                        <div x-show="tab === 'prediksi'" x-transition.duration.500ms>
+                            <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400">
+                                <x-table-prediksi :data="session('data')['forecastData']" />
+                            </div>
+                        </div>
 
-                            </tbody>
-                        </table>
                     </div>
+
                 </div>
                 <div class="flex max-w-full mt-10">
                     <canvas id="display-chart" class="max-w-3xl max-h-96"></canvas>
@@ -162,4 +174,5 @@
         })
     </script>
     @endsection
+    @endif
 </x-app-layout>

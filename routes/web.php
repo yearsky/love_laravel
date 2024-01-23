@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
 
     //Prediksi Controller
     Route::get('/prediksi', [PrediksiController::class, 'index'])->name('prediksi');
-    Route::post('/prediksi', [PrediksiController::class, 'olah'])->name('prediksi.olah');
+    // Route::get('/prediksi', [PrediksiController::class, 'olah'])->name('prediksi.olah');
 });
 
 require __DIR__ . '/auth.php';
