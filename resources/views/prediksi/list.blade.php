@@ -151,16 +151,16 @@
     <script>
         $(function() {
             const data = {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: ['September 2021', 'Oktober 2021', 'November 2021', 'Desember 2021', 'Januari 2022', 'Februari 2022', 'Maret 2022','April 2022','Mei 2022'],
                 datasets: [{
                         label: 'Aktual',
-                        data: [65, 59, 80, 81, 26, 55, 40],
+                        data: [65, 59, 80, 81, 26, 55, 40,null],
                         fill: false,
                         borderColor: 'rgb(75, 192, 192)',
                     },
                     {
                         label: 'Prediksi',
-                        data: [45, 30, 50, 61, 46, 85, 40],
+                        data: [null, null, null, null, null, null, null,50,50],
                         fill: false,
                         borderColor: 'rgb(54, 162, 235)',
                     }

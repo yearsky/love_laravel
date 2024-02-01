@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\PrediksiController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,13 @@ Route::middleware('auth')->group(function () {
     //Prediksi Controller
     Route::get('/prediksi', [PrediksiController::class, 'index'])->name('prediksi');
     // Route::get('/prediksi', [PrediksiController::class, 'olah'])->name('prediksi.olah');
+
+    Route::get('/kelolauser', [UserController::class, 'index'])->name('kelolauser');
+    Route::get('/add-user', [UserController::class, 'add'])->name('kelolauser.add');
+    Route::post('/add-user', [UserController::class, 'save'])->name('kelolauser.save');
+    Route::get('/kelolauser/{id}', [UserController::class, 'edit'])->name('kelolauser.edit');
+    Route::patch('/kelolauser/{id}', [UserController::class, 'update'])->name('kelolauser.update');
+    Route::delete('/kelolauser/{id}', [UserController::class, 'destroy'])->name('kelolauser.delete');
 });
 
 require __DIR__ . '/auth.php';

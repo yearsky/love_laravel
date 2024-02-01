@@ -21,11 +21,13 @@
                         {{ __('Barang') }}
                     </x-nav-link>
                 </div>
+                @if(Auth::user()->role == 2)
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('prediksi')" :active="request()->routeIs('prediksi')">
                         {{ __('Prediksi') }}
                     </x-nav-link>
                 </div>
+                @endif
                 <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('manajemen')">
                         {{ __('Manajemen') }}
@@ -52,10 +54,11 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('profile.user')">
+                        @if(Auth::user()->role == 1)
+                        <x-dropdown-link :href="route('kelolauser')">
                             {{ __('Kelola User') }}
                         </x-dropdown-link>
-
+                        @endif
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

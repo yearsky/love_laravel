@@ -47,6 +47,15 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="role" :value="__('Role')" />
+            <select name="role" class="mt-1 block w-full rounded-md">
+                <option value="1">Penjual</option>
+                <option value="2">Gudang</option>
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
