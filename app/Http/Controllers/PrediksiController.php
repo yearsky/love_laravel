@@ -76,7 +76,8 @@ class PrediksiController extends Controller {
                     'jumlahy' => $jumlahy,
                     'jumlahx' => $jumlahx,
                     'jumlahx2' => $jumlahx2,
-                    'x' => $xValue
+                    'x' => $xValue,
+                    'y' => $value->persediaan_barang
                 ];
 
                 array_push($currentData, $existingData);

@@ -109,39 +109,9 @@
                     </div>
 
                 </div>
-                <div class="flex max-w-full mt-10">
+                <div class="flex max-w-full mt-10 justify-center">
                     <canvas id="display-chart" class="max-w-3xl max-h-96"></canvas>
-                    <div class="flex flex-col w-full mt-8 gap-y-10">
-                        <div class="p-5 border-2 border-e-2  rounded-md  border-green-400 shadow-xl">
-                            <div class="flex justify-between items-center">
-                                <div class="text-4xl">📌</div>
-                                <div class="flex-col text-center justify-center gap-y-5">
-                                    <div class="text-xl font-semibold">MAPE</div>
-                                    <div class="text-lg">23.0</div>
-                                </div>
-                                <div class="flex-col text-center justify-center gap-y-5">
-                                    <div class="text-xl font-semibold">MAD</div>
-                                    <div class="text-lg">114.6</div>
-                                </div>
-                                <div class="flex-col text-center justify-center gap-y-5">
-                                    <div class="text-xl font-semibold">MSE</div>
-                                    <div class="text-lg">22,319</div>
-                                </div>
 
-                            </div>
-                        </div>
-                        <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400 shadow-xl">
-                            <div class="text-4xl">📊</div>
-                            <div class="flex justify-center -mt-12">
-                                <div class="flex flex-col justify-center">
-                                    <div class="text-xl font-semibold">Forecasting</div>
-                                    <div>Juni: 359.123</div>
-                                    <div>Juli: 213.12</div>
-                                    <div>Agustus: 312.13</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div><br />
             </div>
         </div>

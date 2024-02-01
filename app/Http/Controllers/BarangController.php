@@ -30,6 +30,19 @@ class BarangController extends Controller {
         }
     }
 
+    public function edit($id) {
+        $barang = $this->barangModel->getDetailBarang($id);
+        // print_r($barang);
+        // die;
+        $historyBarang = $this->barangModel->getHistoryBarang($barang->id_barang);
+
+        if (empty($barang)) {
+            return Redirect::route('barang')->with('errors', 'Data Barang Tidak Tersedia!');
+        }
+
+        return view('barang.edit', compact('barang', 'historyBarang'));
+    }
+
     public function show($id): View|RedirectResponse {
 
         $barang = $this->barangModel->getDetailBarang($id);
@@ -43,9 +56,9 @@ class BarangController extends Controller {
         return view('barang.detailBarang', compact('barang', 'historyBarang'));
     }
 
-    public function create(Request $request): RedirectResponse {
+    public function createOrUpdate(Request $request): RedirectResponse {
         try {
-            $postData = $request->post();
+            $postData = $request->except('_token');
 
             if (empty($postData)) {
                 // No data to process
@@ -93,7 +106,9 @@ class BarangController extends Controller {
                 $this->barangModel->updateBarang($barang, $historyBarang);
             }
 
-            return Redirect::route('barang')->with('success', 'Sukses menambahkan barang!');
+            $text = $postData['action'] == 'update' ? 'update' : 'menambahkan';
+
+            return Redirect::route('barang')->with('success', 'Sukses ' . $text . ' barang!');
         } catch (\Exception $ex) {
             return Redirect::route('barang')->with('error', 'Error: ' . $ex->getMessage());
         }

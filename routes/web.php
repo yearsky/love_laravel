@@ -33,7 +33,8 @@ Route::middleware('auth')->group(function () {
     //Barang Controller
     Route::get('/barang', [BarangController::class, 'index'])->name('barang');
     Route::get('/barang/{id}', [BarangController::class, 'show'])->name('barang.show');
-    Route::post('/barang', [BarangController::class, 'create'])->name('barang.create');
+    Route::get('/barang/edit/{id}', [BarangController::class, 'edit'])->name('barang.edit');
+    Route::put('/barang', [BarangController::class, 'createOrUpdate'])->name('barang.createOrUpdate');
     Route::delete('/barang/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
 
     //Prediksi Controller

@@ -20,7 +20,7 @@
                 <td>{{ date('Y-m-d',strtotime($value->created_at)) }}</td>
                 <td class="flex gap-x-3">
                     <x-button-primary class="text-2xl" onclick="window.location='{{ route('barang.show', ['id' => $value->id_barang]) }}'">🔎</x-button-primary>
-                    <x-button-warning class="text-2xl bg-yellow-400">📝</x-button-warning>
+                    <x-button-warning class="text-2xl bg-yellow-400" onclick="window.location='{{ route('barang.edit', ['id' => $value->id_barang]) }}'">📝</x-button-warning>
                     <x-danger-button class="text-2xl bg-slate-300 text-white" onclick="showDeleteModal({{ $value->id_barang }})">❌</x-danger-button>
                 </td>
             </tr>
