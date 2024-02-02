@@ -9,13 +9,16 @@ use Illuminate\View\View;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 
-class PrediksiController extends Controller {
-    public function __construct() {
+class PrediksiController extends Controller
+{
+    public function __construct()
+    {
         $this->model = new PrediksiModels();
         $this->barangModel = new BarangModel();
     }
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
 
         $months = [];
         $months = array_map(
@@ -45,7 +48,8 @@ class PrediksiController extends Controller {
         return View('prediksi.list', compact('months', 'listBarang'));
     }
 
-    public function doProcess($barang, $tahun, $bulan) {
+    public function doProcess($barang, $tahun, $bulan)
+    {
         try {
             $tahun = intval($tahun);
             $bulan = intval($bulan);

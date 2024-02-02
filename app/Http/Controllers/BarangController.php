@@ -11,26 +11,40 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class BarangController extends Controller {
-    public function __construct() {
+class BarangController extends Controller
+{
+    public function __construct()
+    {
         $this->kategoriModel = new KategoriModel();
         $this->barangModel = new BarangModel();
         $this->appHelper = new AppHelper();
     }
 
-    public function index() {
+    public function index()
+    {
         try {
+            $params = [];
+            if (!empty(request())) {
+                $namaBarang = !request('nama_barang') ? '' : request('nama_barang');
+                $kategori = !request('kategori') ? '' : request('kategori');
+                $tanggalMasuk = !request('tanggal_masuk') ? '' : request('tanggal_masuk');
+
+                $params['nama_barang'] = $namaBarang;
+                $params['kategori'] = $kategori;
+                $params['tanggal_masuk'] = $tanggalMasuk;
+            }
 
             $category = $this->kategoriModel->getListCategory();
 
-            $listBarang = $this->barangModel->getListBarang();
+            $listBarang = $this->barangModel->getListBarang($params);
 
             return view('barang.list', compact('category', 'listBarang'));
         } catch (\Throwable $th) {
         }
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $barang = $this->barangModel->getDetailBarang($id);
         // print_r($barang);
         // die;
@@ -43,7 +57,8 @@ class BarangController extends Controller {
         return view('barang.edit', compact('barang', 'historyBarang'));
     }
 
-    public function show($id): View|RedirectResponse {
+    public function show($id)
+    {
 
         $barang = $this->barangModel->getDetailBarang($id);
 
@@ -56,7 +71,8 @@ class BarangController extends Controller {
         return view('barang.detailBarang', compact('barang', 'historyBarang'));
     }
 
-    public function createOrUpdate(Request $request): RedirectResponse {
+    public function createOrUpdate(Request $request): RedirectResponse
+    {
         try {
             $postData = $request->except('_token');
 
@@ -114,7 +130,8 @@ class BarangController extends Controller {
         }
     }
 
-    public function destroy($id_barang) {
+    public function destroy($id_barang)
+    {
         try {
             $deleteData = $this->barangModel->destroyBarang($id_barang);
 

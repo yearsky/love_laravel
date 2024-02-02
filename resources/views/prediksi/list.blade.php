@@ -120,6 +120,8 @@
     @section('script')
     <script>
         $(function() {
+            const defaultData = {!! json_encode(session('data')['defaultData']) !!};;
+            console.log(defaultData)
             const data = {
                 labels: ['September 2021', 'Oktober 2021', 'November 2021', 'Desember 2021', 'Januari 2022', 'Februari 2022', 'Maret 2022','April 2022','Mei 2022'],
                 datasets: [{

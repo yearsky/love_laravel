@@ -17,7 +17,7 @@
                         <div class="mt-4">
                             <x-input-label for="nama_barang" value="{{ __('Nama Barang') }}" />
 
-                            <x-input-disabled :value="$barang->nama_barang" />
+                            <x-text-input class="block w-full" :disabled="true" :value="$barang->nama_barang" />
 
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                         <div class="mt-4">
                             <x-input-label for="nama_barang" value="{{ __('Kategori Barang') }}" />
 
-                            <x-input-disabled :value="$barang->nama_kategori" />
+                            <x-text-input :disabled="true" class="block w-full" :value="$barang->nama_kategori" />
 
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                         <div class="">
                             <x-input-label for="harga_jual" value="{{ __('Harga Jual') }}" />
 
-                            <x-input-disabled :value="$barang->harga_jual" />
+                            <x-text-input :disabled="true" class="block w-full" :value="$barang->harga_jual" />
 
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                         <div class="">
                             <x-input-label for="harga_beli" value="{{ __('Harga Beli') }}" />
 
-                            <x-input-disabled :value="$barang->harga_beli" />
+                            <x-text-input :disabled="true" class="block w-full" :value="$barang->harga_beli" />
 
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                 <div class="sm:col-span-3">
                     <div class="mt-4">
                         <x-input-label for="harga_beli" value="{{ __('Deskripsi Barang') }}" />
-                        <x-input-disabled :value="$barang->deskripsi" />
+                        <x-text-input :disabled="true" class="block w-full" :value="$barang->deskripsi" />
 
                     </div>
                 </div>

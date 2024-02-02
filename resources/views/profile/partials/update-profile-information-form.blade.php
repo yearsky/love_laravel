@@ -50,8 +50,8 @@
         <div>
             <x-input-label for="role" :value="__('Role')" />
             <select name="role" class="mt-1 block w-full rounded-md">
-                <option value="1">Penjual</option>
-                <option value="2">Gudang</option>
+                <option value="1" {{Auth::user()->role == 1 ? 'selected' : ''}}>Penjual</option>
+                <option value="2"{{ Auth::user()->role == 2 ? 'selected' : ''}}>Gudang</option>
             </select>
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
