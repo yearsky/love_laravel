@@ -113,7 +113,8 @@ class PrediksiController extends Controller
                 $Y = $a + ($b * $xValue);
 
                 $results[] = [
-                    'tahun' => $tahun,
+                    'currentYear' => $tahun,
+                    'currentMonth' => $bulan - $i,
                     'x' => $bulan - $i,
                     'forecasting' => $Y,
                     'a' => $a,

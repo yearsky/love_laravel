@@ -48,11 +48,59 @@ class BarangModel extends Model
         }
     }
 
+    public function getStokMasuk()
+    {
+        $query = DB::table('barang as a')
+            ->leftJoin('history_barang as b', 'a.id_barang', '=', 'b.id_barang')
+            ->leftJoin('kategori as c', 'a.id_kategori', '=', 'c.id_kategori')
+            ->select(
+                'a.nama_barang',
+                'a.harga_jual',
+                'a.harga_beli',
+                'b.stok_masuk',
+                'b.stok_keluar',
+                'b.created_at',
+                'b.updated_at'
+            )->where('stok_masuk', '>', '0');
+
+        $result = $query->get();
+
+        return $result;
+    }
+
+    public function getStokKeluar()
+    {
+        $query = DB::table('barang as a')
+            ->leftJoin('history_barang as b', 'a.id_barang', '=', 'b.id_barang')
+            ->leftJoin('kategori as c', 'a.id_kategori', '=', 'c.id_kategori')
+            ->select(
+                'a.nama_barang',
+                'a.harga_jual',
+                'a.harga_beli',
+                'b.stok_masuk',
+                'b.stok_keluar',
+                'b.created_at',
+                'b.updated_at'
+            )->where('stok_keluar', '>', '0')
+            ->orderBy('b.updated_at', 'desc');
+
+        $result = $query->get();
+
+        return $result;
+    }
+
     public function checkBarangExists($barang)
     {
         $query = DB::select('SELECT * FROM barang WHERE nama_barang LIKE ?', ['%' . $barang . '%']);
         $results = reset($query);
         return $results;
+    }
+
+    public function getHistoryBarangById($id)
+    {
+        $query = DB::select('SELECT * FROM history_barang WHERE id_history = ? ', [$id]);
+
+        return $query;
     }
 
     public function getDetailBarang($id)
@@ -88,18 +136,27 @@ class BarangModel extends Model
         return 1;
     }
 
-    public function updateBarang($barang, $historyBarang)
+    public function updateBarang($barang)
     {
         $id_barang = $barang['id_barang'];
 
         if (!empty($barang)) {
             $updateBarang = DB::table('barang')->where('id_barang', $id_barang)->update($barang);
         }
+    }
 
-        if (!empty($historyBarang)) {
-            $historyBarang['id_barang'] = $id_barang;
-            $updateHistoryBarang =  DB::table('history_barang')->insert($historyBarang);
+    public function insertStok($stok)
+    {
+        if (!empty($stok)) {
+            $insertStok = DB::table('history_barang')->insertGetId($stok);
         }
+    }
+
+    public function updateStok($stokId, $stok)
+    {
+        $updateStok = DB::table('history_barang')->where('id_history', $stokId)->update($stok);
+
+        return $updateStok;
     }
 
     public function destroyBarang($id_barang)

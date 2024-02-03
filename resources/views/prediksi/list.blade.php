@@ -98,21 +98,24 @@
                         <div x-show="tab === 'Existing'" x-transition>
                             <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400">
                                 <x-table-existing :data="session('data')['defaultData']" />
+                                <div class="flex max-w-full mt-10 justify-center">
+                                    <canvas id="display-chart-default" class="max-w-3xl max-h-96"></canvas>
+                                </div><br />
                             </div>
                         </div>
                         <div x-show="tab === 'prediksi'" x-transition.duration.500ms>
                             <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400">
                                 <x-table-prediksi :data="session('data')['forecastData']" />
+                                <div class="flex max-w-full mt-10 justify-center">
+                                    <canvas id="display-chart-forecast" class="max-w-3xl max-h-96"></canvas>
+                                </div><br />
                             </div>
                         </div>
 
                     </div>
 
                 </div>
-                <div class="flex max-w-full mt-10 justify-center">
-                    <canvas id="display-chart" class="max-w-3xl max-h-96"></canvas>
-
-                </div><br />
+                
             </div>
         </div>
     </div>
@@ -120,30 +123,58 @@
     @section('script')
     <script>
         $(function() {
-            const defaultData = {!! json_encode(session('data')['defaultData']) !!};;
-            console.log(defaultData)
-            const data = {
-                labels: ['September 2021', 'Oktober 2021', 'November 2021', 'Desember 2021', 'Januari 2022', 'Februari 2022', 'Maret 2022','April 2022','Mei 2022'],
-                datasets: [{
-                        label: 'Aktual',
-                        data: [65, 59, 80, 81, 26, 55, 40,null],
-                        fill: false,
-                        borderColor: 'rgb(75, 192, 192)',
-                    },
-                    {
-                        label: 'Prediksi',
-                        data: [null, null, null, null, null, null, null,50,50],
-                        fill: false,
-                        borderColor: 'rgb(54, 162, 235)',
-                    }
-                ]
-            };
-            const config = {
+            const defaultData = {!! json_encode(session('data')['defaultData']) !!};
+            const forecastData = {!! json_encode(session('data')['forecastData']) !!};
+
+            // Mengubah format tanggal menjadi nama bulan
+            const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+
+            function processData(data) {
+                return {
+                    labels: data.map(item => {
+                        const monthName = monthNames[item.currentMonth - 1];
+                        return `${monthName} ${item.currentYear}`;
+                    }),
+                    aktualData: data.map(item => item.jumlahy),
+                    prediksiData: data.map(item => item.a + (item.b * item.x))
+                };
+            }
+
+            const { labels: labelsDefault, aktualData: aktualDataDefault, prediksiData: prediksiDataDefault } = processData(defaultData);
+            const { labels: labelsForecast, aktualData: aktualDataForecast, prediksiData: prediksiDataForecast } = processData(forecastData);
+
+            const configDefault = createChartConfig(labelsDefault, aktualDataDefault, prediksiDataDefault);
+            const configForecast = createChartConfig(labelsForecast, aktualDataForecast, prediksiDataForecast);
+
+            new Chart(document.getElementById('display-chart-default'), configDefault);
+            new Chart(document.getElementById('display-chart-forecast'), configForecast);
+        });
+
+        function createChartConfig(labels, aktualData, prediksiData) {
+            return {
                 type: 'line',
-                data: data,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                            label: 'Aktual',
+                            data: aktualData,
+                            fill: false,
+                            borderColor: 'rgb(75, 192, 192)',
+                        },
+                        {
+                            label: 'Prediksi',
+                            data: prediksiData,
+                            fill: false,
+                            borderColor: 'rgb(54, 162, 235)',
+                        }
+                    ]
+                }
             };
-            const chart = new Chart(document.getElementById('display-chart'), config);
-        })
+        }
+
+
     </script>
     @endsection
     @endif

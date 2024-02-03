@@ -65,12 +65,50 @@
                     <!-- The tabs content -->
                     <div x-show="tab === 'masuk'" x-transition>
                         <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400">
-                            <x-table-barang />
+                            <table id="dataTable" class="dataTable stripe hover row-border cell-border">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama Barang</th>
+                                            <th>Stok Masuk</th>
+                                            <th>Tanggal Masuk</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($barangMasuk as $key => $value)
+                                        <tr>
+                                            <td>{{$key += 1}}</td>
+                                            <td>{{$value->nama_barang}}</td>
+                                            <td>{{$value->stok_masuk}}</td>
+                                            <td>{{date('Y-m-d', strtotime($value->created_at))}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                            </table>
                         </div>
                     </div>
                     <div x-show="tab === 'keluar'" x-transition.duration.500ms>
                         <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400">
-                            <x-table-barang />
+                            <table id="dataTable" class="dataTable stripe hover row-border cell-border">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Barang</th>
+                                        <th>Stok Keluar</th>
+                                        <th>Tanggal Keluar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($barangKeluar as $key => $value)
+                                    <tr>
+                                        <td>{{$key += 1}}</td>
+                                        <td>{{$value->nama_barang}}</td>
+                                        <td>{{$value->stok_keluar}}</td>
+                                        <td>{{date('Y-m-d', strtotime($value->updated_at))}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                        </table>
                         </div>
                     </div>
 

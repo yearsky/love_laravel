@@ -11,7 +11,7 @@
     <tbody>
         @foreach ($data as $key => $value)
         <tr>
-            <td>{{$value['tahun']}}</td>
+            <td>{{$value['currentYear']}}</td>
             <td>{{$value['x']}}</td>
             <td>{{$value['forecasting']}}</td>
         </tr>

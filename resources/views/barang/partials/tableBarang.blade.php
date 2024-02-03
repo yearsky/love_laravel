@@ -16,7 +16,7 @@
                 <td>{{$value->nama_barang}}</td>
                 <td>{{ $value->harga_beli }}</td>
                 <td>{{ $value->harga_jual }}</td>
-                <td>{{ $value->persediaan_barang }}</td>
+                <td>{{ $value->persediaan_barang == 0 ? 'Persediaan Barang Habis' : $value->persediaan_barang }}</td>
                 <td>{{ date('Y-m-d',strtotime($value->created_at)) }}</td>
                 <td class="flex gap-x-3">
                     <x-button-primary class="text-2xl" onclick="window.location='{{ route('barang.show', ['id' => $value->id_barang]) }}'">🔎</x-button-primary>

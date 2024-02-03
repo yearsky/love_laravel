@@ -72,23 +72,30 @@
                         <table class="border-collapse border border-slate-400 w-full rounded-full">
                             <thead>
                                 <tr>
+                                    <th class="border border-slate-300">Id</th>
+                                    <th class="border border-slate-300">Tanggal Masuk</th>
                                     <th class="border border-slate-300">Stok Masuk</th>
                                     <th class="border border-slate-300">Stok Keluar</th>
+                                    <th class="border border-slate-300">Sisa Stok</th>
                                     <!-- <th class="border border-slate-300">Tanggal Update</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($historyBarang as $value)
+                                @if($value->stok_masuk - $value->stok_keluar != 0)
                                 <tr class="text-center">
-                                    <td class="border border-slate-300 stok_masuk">{{ $value->stok_masuk }}</td>
-                                    <td class="border border-slate-300 stok_keluar">{{ $value->stok_keluar }}</td>
-                                    <!-- <td class="border border-slate-300">{{ date('Y-m-d',strtotime($value->updated_at)) }}</td> -->
+                                    <td class="border border-slate-300">#{{ $value->id_history }}</td>
+                                    <td class="border border-slate-300 tanggal_masuk">{{ date('Y-m-d',strtotime($value->created_at)) }}</td>
+                                    <td class="border border-slate-300 stok_masuk">{{ $value->stok_masuk - $value->stok_keluar }}</td>
+                                    <td class="border border-slate-300 stok_keluar">
+                                        <input type="number" id="stok_keluar_input"/>
+                                    </td>
+                                    <td class="border border-slate-300" id="total" class="total"></td>
+                                    <input type="hidden" name="id_history[]" value="{{$value->id_history}}"/>
+                                    <input type="hidden" name="stok[]" id="stok" class="stok"/>
                                 </tr>
+                                @endif
                                 @endforeach
-                                <tr>
-                                    <td colspan="1" class="border border-slate-300 text-center">Total Persediaan Barang</td>
-                                    <td colspan="1" class="border border-slate-300 text-center" id="totalCount"></td>
-                                </tr>
 
                             </tbody>
                         </table>
@@ -107,21 +114,41 @@
     @section('script')
     <script>
         $(function() {
-            let totalStokMasuk = 0;
-            let totalStokKeluar = 0;
+            var stok = {}; // Mengubah menjadi variabel lokal
 
-            $('.stok_masuk').each(function() {
-                let stokMasuk = parseInt($(this).text()) || 0; // Use 0 if the text is not a valid number
-                totalStokMasuk += stokMasuk;
-            });
+            $('.stok_keluar input').on('input', function() {
+                var row = $(this).closest('tr');
+                var stokMasuk = parseInt(row.find('.stok_masuk').text());
+                var stokKeluar = parseInt($(this).val());
 
-            $('.stok_keluar').each(function() {
-                let stokKeluar = parseInt($(this).text()) || 0; // Use 0 if the text is not a valid number
-                totalStokKeluar += stokKeluar;
+                if (isNaN(stokKeluar)) {
+                    stokKeluar = 0;
+                }
+
+                if (stokKeluar > stokMasuk) {
+                    alert('Stok keluar tidak boleh melebihi stok masuk!');
+                    $(this).val(stokMasuk);
+                    stokKeluar = stokMasuk;
+                }
+
+                var total = stokMasuk - stokKeluar;
+                row.find('#total').text(total);
+
+                // Mengupdate objek stok dengan stok_keluar berdasarkan id_history
+                var idHistory = row.find('input[name="id_history[]"]').val();
+                // stok[idHistory] = stokKeluar;
+                var stokData = JSON.parse(decodeURIComponent(row.find('.stok').val() || '{}'));
+    
+                // Memperbarui data stok untuk baris saat ini
+                stokData['id_history'] = idHistory;
+                stokData['stok_keluar'] = stokKeluar;
+
+                // Menyimpan kembali data stok yang telah diperbarui ke input tersembunyi
+                row.find('.stok').val(encodeURIComponent(JSON.stringify(stokData)));
+                console.log(stokData); // Untuk melihat hasilnya dalam konsol browser
             });
-            let finalCount = totalStokMasuk - totalStokKeluar
-            $('#totalCount').text(finalCount)
-        })
+        });
+
     </script>
     @endsection
 </x-app-layout>

@@ -38,7 +38,10 @@ class BarangController extends Controller
 
             $listBarang = $this->barangModel->getListBarang($params);
 
-            return view('barang.list', compact('category', 'listBarang'));
+            $barangMasuk = $this->barangModel->getStokMasuk();
+            $barangKeluar = $this->barangModel->getStokKeluar();
+
+            return view('barang.list', compact('category', 'listBarang', 'barangMasuk', 'barangKeluar'));
         } catch (\Throwable $th) {
         }
     }
@@ -76,6 +79,8 @@ class BarangController extends Controller
         try {
             $postData = $request->except('_token');
 
+            $historyBarang = [];
+
             if (empty($postData)) {
                 // No data to process
                 return Redirect::route('barang')->with('error', 'No data provided.');
@@ -94,9 +99,8 @@ class BarangController extends Controller
                 $kategori['nama_kategori'] = $categoryName;
                 $categoryId = $this->kategoriModel->insertCategory($kategori);
             }
-
-            // Check if barang exists
             $checkBarang = $this->barangModel->checkBarangExists($namaBarang);
+
             $barang = [
                 'harga_beli' => (float) $postData['harga_beli'],
                 'harga_jual' => (float) $postData['harga_jual'],
@@ -105,11 +109,10 @@ class BarangController extends Controller
                 'deskripsi' => $postData['deskripsi'],
                 'updated_at' => $this->appHelper->currentDate(),
             ];
-
             $historyBarang = [
-                'stok_masuk' => $postData['stok_masuk'],
-                'created_at' => $postData['tanggal_masuk'],
-                'updated_at' => $postData['tanggal_masuk'],
+                'stok_masuk' => $postData['stok_masuk'] ?? '',
+                'created_at' => $postData['tanggal_masuk'] ?? $this->appHelper->currentDate(),
+                'updated_at' => $this->appHelper->currentDate(),
             ];
 
             if (empty($checkBarang)) {
@@ -119,7 +122,41 @@ class BarangController extends Controller
             } else {
                 // Update existing record
                 $barang['id_barang'] = $checkBarang->id_barang;
-                $this->barangModel->updateBarang($barang, $historyBarang);
+                $historyBarang['id_barang'] = $barang['id_barang'];
+                $this->barangModel->updateBarang($barang);
+
+                if ($postData['action'] == 'create') {
+                    $this->barangModel->insertStok($historyBarang);
+                }
+
+                $stok = [];
+                if (isset($postData['stok'])) {
+
+                    foreach ($postData['stok'] as $value) {
+                        $itemStok = json_decode(urldecode($value), true);
+                        if (is_array($itemStok)) {
+                            if ($itemStok['stok_keluar'] > 0) {
+                                array_push($stok, $itemStok);
+                            }
+                        }
+                    }
+                }
+
+                foreach ($stok as $value) {
+                    $getCurrentStok = $this->barangModel->getHistoryBarangById($value['id_history'])[0];
+
+                    if ($getCurrentStok->stok_keluar > 0) {
+                        $items['stok_keluar'] =  $getCurrentStok->stok_keluar + $value['stok_keluar'];
+                    } else {
+                        $items['stok_keluar'] = $value['stok_keluar'];
+                    }
+                    $items['updated_at'] = $this->appHelper->currentDate();
+
+                    $updateStok = $this->barangModel->updateStok($value['id_history'], $items);
+                    if (!$updateStok) {
+                        return Redirect::route('barang')->with('error', 'Error: Gagal Update Data');
+                    }
+                }
             }
 
             $text = $postData['action'] == 'update' ? 'update' : 'menambahkan';

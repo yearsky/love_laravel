@@ -54,19 +54,19 @@
             buttons: [{
                     extend: 'copyHtml5',
                     exportOptions: {
-                        columns: [0, 1, 2, 4]
+                        columns: 'th:not(:last-child)'
                     }
                 },
                 {
                     extend: 'excelHtml5',
                     exportOptions: {
-                        columns: [0, 1, 2, 4]
+                        columns: 'th:not(:last-child)'
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     exportOptions: {
-                        columns: [0, 1, 2, 4]
+                        columns: 'th:not(:last-child)'
                     }
                 },
                 'colvis'
