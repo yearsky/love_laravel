@@ -167,7 +167,10 @@ class BarangModel extends Model
 
     public function getStokBarang()
     {
-        $query = DB::select('SELECT YEAR(created_at) as tahun, SUM(stok_masuk) AS stok_masuk, SUM(stok_keluar) AS stok_keluar FROM history_barang GROUP BY YEAR(created_at)');
+        $query = DB::select('SELECT b.nama_barang, YEAR(a.created_at) AS tahun_masuk, SUM(stok_masuk) AS stok_masuk, SUM(stok_keluar) AS stok_keluar
+        FROM history_barang a
+        LEFT JOIN barang b ON a.id_barang = b.id_barang
+        GROUP BY YEAR(a.created_at), a.id_barang ORDER BY tahun_masuk');
 
         return $query;
     }

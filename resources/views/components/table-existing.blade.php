@@ -4,7 +4,7 @@
 $totalMAD = 0;
 $totalMAPE = 0;
 $totalMSE = 0;
-$date = \Carbon\Carbon::create($lastData['currentYear'], $lastData['currentMonth']);
+$dateForecast = \Carbon\Carbon::create($lastData['currentYear'], $lastData['currentMonth']);
 @endphp
 
 <table id="dataTable" class="dataTable stripe hover row-border cell-border">
@@ -33,9 +33,10 @@ $date = \Carbon\Carbon::create($lastData['currentYear'], $lastData['currentMonth
         $totalMAD += $mad;
         $totalMAPE += $mape;
         $totalMSE += $mse;
+        $date = \Carbon\Carbon::create($value['currentYear'], $value['currentMonth']);
         @endphp
         <tr>
-            <td>{{$value['currentYear']}}</td>
+            <td>{{ $date->translatedFormat('F Y') }}</td>
             <td>{{$value['x']}}</td>
             <td>{{$value['jumlahy']}}</td>
             <td>{{$value['jumlahxy']}}</td>
@@ -74,7 +75,7 @@ $date = \Carbon\Carbon::create($lastData['currentYear'], $lastData['currentMonth
         <div class="flex justify-center -mt-12">
             <div class="flex flex-col justify-center">
                 <div class="text-xl font-semibold">Forecasting</div>
-                <div>{{ $date->translatedFormat('F Y') }} : {{$lastData['forecasting']}}</div>
+                <div>{{ $dateForecast->translatedFormat('F Y') }} : {{$lastData['forecasting']}}</div>
             </div>
         </div>
     </div>

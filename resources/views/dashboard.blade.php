@@ -27,44 +27,72 @@
 
     <script>
         let dataStok = {!! json_encode($getListStok) !!};
-
-        const labels = dataStok.map(entry => entry.tahun);
-        const stokMasuk = dataStok.map(entry => parseInt(entry.stok_masuk));
-        const stokKeluar = dataStok.map(entry => parseInt(entry.stok_keluar));
-
-        const totalStokMasuk = stokMasuk.reduce((total, current) => total + current, 0);
-        const totalStokKeluar = stokKeluar.reduce((total, current) => total + current, 0);
+        console.log(dataStok)
+    
+        // Mengelompokkan data berdasarkan nama_barang dan tahun_masuk
+        const groupedData = dataStok.reduce((acc, cur) => {
+            const key = cur.nama_barang + '-' + cur.tahun_masuk;
+            if (!acc[key]) {
+                acc[key] = {
+                    label: cur.nama_barang + ' ' + cur.tahun_masuk,
+                    stok_masuk: parseInt(cur.stok_masuk),
+                    stok_keluar: parseInt(cur.stok_keluar)
+                };
+            } else {
+                acc[key].stok_masuk += parseInt(cur.stok_masuk);
+                acc[key].stok_keluar += parseInt(cur.stok_keluar);
+            }
+            return acc;
+        }, {});
+    
+        // Mendapatkan array dari groupedData
+        const groupedArray = Object.values(groupedData);
+    
+        // Menghitung total stok masuk dan keluar
+        const totalStokMasuk = groupedArray.reduce((total, current) => total + current.stok_masuk, 0);
+        const totalStokKeluar = groupedArray.reduce((total, current) => total + current.stok_keluar, 0);
+    
+        // Membuat array labels untuk Chart.js
+        const labels = groupedArray.map(entry => entry.label);
+    
+        // Membuat array stok masuk dan keluar untuk Chart.js
+        const stokMasuk = groupedArray.map(entry => entry.stok_masuk);
+        const stokKeluar = groupedArray.map(entry => entry.stok_keluar);
+    
         const data = {
             labels: labels,
             datasets: [
-            {
-                label: 'Total Barang Masuk: '+totalStokMasuk,
-                data: stokMasuk,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgb(54, 162, 235)',
-                borderWidth: 1
-            },
-            {
-                label: 'Total Barang Keluar: '+totalStokKeluar,
-                data: stokKeluar,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgb(255, 99, 132)',
-                borderWidth: 1
-            }
-        ]
+                {
+                    label: 'Total Barang Masuk: ' + totalStokMasuk,
+                    data: stokMasuk,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Total Barang Keluar: ' + totalStokKeluar,
+                    data: stokKeluar,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
+                }
+            ]
         };
+    
         const config = {
             type: 'bar',
             data: data,
             options: {
                 scales: {
-                y: {
-                    beginAtZero: true
-                }
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             },
         };
-
+    
         new Chart(document.getElementById('display-chart-dashboard'), config);
     </script>
+    
+    
 </x-app-layout>

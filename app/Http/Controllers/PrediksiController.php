@@ -120,7 +120,7 @@ class PrediksiController extends Controller
                     'forecasting' => $Y,
                     'a' => $a,
                     'b' => $b,
-                    'jumlahy' => $a + ($b * ($bulan - $i)),
+                    'y' => $a + ($b * ($bulan - $i)),
                     'gap' => $xValue
                 ];
             }
