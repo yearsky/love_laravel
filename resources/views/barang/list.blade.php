@@ -51,15 +51,15 @@
                         </header>
 
                     </section>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white h-10 font-bold py-2 px-4 rounded">
-                        Filter Data
-                    </button>
+                    
                 </div>
                 <div class="max-w-full my-10" x-data="{ tab: window.location.hash ? window.location.hash.substring(1) : 'masuk' }" id="tab_wrapper">
                     <!-- The tabs navigation -->
                     <nav class="flex gap-x-3 my-5 justify-center">
                         <a class="p-2 rounded-md" :class="{ 'bg-blue-500 text-white': tab === 'masuk', 'active': tab === 'masuk' }" @click.prevent="tab = 'masuk'; window.location.hash = 'masuk'" href="#">Masuk</a>
+                        @if(Auth::user()->role == 1)
                         <a class="p-2 rounded-md" :class="{ 'bg-blue-500 text-white': tab === 'keluar', 'active': tab === 'keluar' }" @click.prevent="tab = 'keluar'; window.location.hash = 'keluar'" href="#">Keluar</a>
+                        @endif
                     </nav>
 
                     <!-- The tabs content -->

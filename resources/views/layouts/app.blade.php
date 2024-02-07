@@ -51,12 +51,7 @@
     $(function() {
         $('.dataTable').DataTable({
             dom: 'Bfrtip',
-            buttons: [{
-                    extend: 'copyHtml5',
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
-                },
+            buttons: [
                 {
                     extend: 'excelHtml5',
                     exportOptions: {

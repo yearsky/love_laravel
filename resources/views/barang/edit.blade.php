@@ -75,8 +75,10 @@
                                     <th class="border border-slate-300">Id</th>
                                     <th class="border border-slate-300">Tanggal Masuk</th>
                                     <th class="border border-slate-300">Stok Masuk</th>
+                                    @if(Auth::user()->role == 1)
                                     <th class="border border-slate-300">Stok Keluar</th>
                                     <th class="border border-slate-300">Sisa Stok</th>
+                                    @endif
                                     <!-- <th class="border border-slate-300">Tanggal Update</th> -->
                                 </tr>
                             </thead>
@@ -87,10 +89,12 @@
                                     <td class="border border-slate-300">#{{ $value->id_history }}</td>
                                     <td class="border border-slate-300 tanggal_masuk">{{ date('Y-m-d',strtotime($value->created_at)) }}</td>
                                     <td class="border border-slate-300 stok_masuk">{{ $value->stok_masuk - $value->stok_keluar }}</td>
+                                    @if(Auth::user()->role == 1)
                                     <td class="border border-slate-300 stok_keluar">
                                         <input type="number" id="stok_keluar_input"/>
                                     </td>
                                     <td class="border border-slate-300" id="total" class="total"></td>
+                                    @endif
                                     <input type="hidden" name="id_history[]" value="{{$value->id_history}}"/>
                                     <input type="hidden" name="stok[]" id="stok" class="stok"/>
                                 </tr>

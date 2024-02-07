@@ -97,7 +97,7 @@
                         <!-- The tabs content -->
                         <div x-show="tab === 'Existing'" x-transition>
                             <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400">
-                                <x-table-existing :data="session('data')['defaultData']" />
+                                <x-table-existing :data="session('data')['defaultData']" :lastData="session('data')['forecastLastData']"/>
                                 <div class="flex max-w-full mt-10 justify-center">
                                     <canvas id="display-chart-default" class="max-w-3xl max-h-96"></canvas>
                                 </div><br />
@@ -161,7 +161,7 @@
                             label: 'Aktual',
                             data: aktualData,
                             fill: false,
-                            borderColor: 'rgb(75, 192, 192)',
+                            borderColor: 'rgba(255, 99, 132)',
                         },
                         {
                             label: 'Prediksi',

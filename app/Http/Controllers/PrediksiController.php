@@ -38,7 +38,8 @@ class PrediksiController extends Controller
             $bulan = $getRequestData['bulan'];
 
             $results = $this->doProcess($barang, $tahun, $bulan);
-            $results = array_merge($getRequestData, $results);
+            $lastData['forecastLastData']  = end($results['forecastData']);
+            $results = array_merge($getRequestData, $results, $lastData);
             // print_r($results);
             // die;
             return Redirect::route('prediksi')->with(['success' => 'Berhasil Generate Data Prediksi', 'data' => $results]);
@@ -119,6 +120,7 @@ class PrediksiController extends Controller
                     'forecasting' => $Y,
                     'a' => $a,
                     'b' => $b,
+                    'jumlahy' => $a + ($b * ($bulan - $i)),
                     'gap' => $xValue
                 ];
             }

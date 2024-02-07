@@ -1,9 +1,10 @@
-@props(['data' => []])
+@props(['data' => [],'lastData' => []])
 
 @php
 $totalMAD = 0;
 $totalMAPE = 0;
 $totalMSE = 0;
+$date = \Carbon\Carbon::create($lastData['currentYear'], $lastData['currentMonth']);
 @endphp
 
 <table id="dataTable" class="dataTable stripe hover row-border cell-border">
@@ -73,9 +74,7 @@ $totalMSE = 0;
         <div class="flex justify-center -mt-12">
             <div class="flex flex-col justify-center">
                 <div class="text-xl font-semibold">Forecasting</div>
-                <div>Juni: 359.123</div>
-                <div>Juli: 213.12</div>
-                <div>Agustus: 312.13</div>
+                <div>{{ $date->translatedFormat('F Y') }} : {{$lastData['forecasting']}}</div>
             </div>
         </div>
     </div>

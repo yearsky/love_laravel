@@ -5,6 +5,7 @@
         <tr>
             <th>Tahun</th>
             <th>X</th>
+            <th>Y</th>
             <th>FX</th>
         </tr>
     </thead>
@@ -13,6 +14,7 @@
         <tr>
             <td>{{$value['currentYear']}}</td>
             <td>{{$value['x']}}</td>
+            <td>{{$value['jumlahy']}}</td>
             <td>{{$value['forecasting']}}</td>
         </tr>
         @endforeach
