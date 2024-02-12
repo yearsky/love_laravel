@@ -4,7 +4,7 @@
 $totalMAD = 0;
 $totalMAPE = 0;
 $totalMSE = 0;
-$dateForecast = \Carbon\Carbon::create($lastData['currentYear'], $lastData['currentMonth']);
+$dateForecast = !empty($lastData) ? \Carbon\Carbon::create($lastData['currentYear'], $lastData['currentMonth']) : '';
 @endphp
 
 <table id="dataTable" class="dataTable stripe hover row-border cell-border">
@@ -70,6 +70,7 @@ $dateForecast = \Carbon\Carbon::create($lastData['currentYear'], $lastData['curr
 
         </div>
     </div>
+    @if(!empty($lastData))
     <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400 shadow-xl">
         <div class="text-4xl">📊</div>
         <div class="flex justify-center -mt-12">
@@ -79,4 +80,5 @@ $dateForecast = \Carbon\Carbon::create($lastData['currentYear'], $lastData['curr
             </div>
         </div>
     </div>
+    @endif
 </div>
