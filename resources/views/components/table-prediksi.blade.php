@@ -12,16 +12,31 @@
     <tbody>
         @foreach ($data as $key => $value)
         @php
-            $currentYear = $value['currentYear'];
-            $currentMonth = $value['currentMonth'];
-            $date = \Carbon\Carbon::create($currentYear, $currentMonth);
+        setlocale(LC_TIME, 'id_ID');
+        
+        $currentYear = $value['currentYear'];
+        $currentMonth = $value['currentMonth'];
+        
+        $year = substr($currentYear, 0, 4);
+        $month = substr($currentMonth, -2);
+        
+        if ($month > 12) {
+            $month = $month % 12;
+            if ($month == 0) {
+                $currentYear -= 1;
+            }
+        }
+        
+        $formattedMonth = strftime('%B', strtotime("$currentYear-$month-01"));
         @endphp
         <tr>
-            <td>{{ $date->translatedFormat('F Y') }}</td>
-            <td>{{$value['x']}}</td>
-            <td>{{$value['y']}}</td>
-            <td>{{$value['forecasting']}}</td>
+            <td>{{ $formattedMonth }}  {{ $currentYear }}</td>
+            <td>{{ $value['x'] }}</td>
+            <td>{{ $value['y'] }}</td>
+            <td>{{ $value['forecasting'] }}</td>
         </tr>
-    @endforeach
+        @endforeach
+
+
     </tbody>
 </table>

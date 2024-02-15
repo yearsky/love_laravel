@@ -111,14 +111,20 @@ class PrediksiController extends Controller
 
                 $Y = $a + ($b * $xValue);
 
+
+                $newYear = $tahunLama;
+                if ($xValue > 12) {
+                    $newYear = $tahunLama + floor($xValue / 12);
+                }
+
                 $results[] = [
-                    'currentYear' => $tahun,
+                    'currentYear' => $newYear,
                     'currentMonth' => $xValue,
                     'x' => $xValue,
                     'forecasting' => $Y,
                     'a' => $a,
                     'b' => $b,
-                    'y' => $a + ($b * ($xValue)),
+                    'y' => $a + ($b * $xValue),
                     'gap' => $xValue
                 ];
             }
@@ -128,7 +134,8 @@ class PrediksiController extends Controller
                 $data['b'] = $b;
             }
 
-
+            // print_r($results);
+            // die;
             $defaultData['defaultData'] = $currentData;
             $resultsData['forecastData'] = $results;
 
