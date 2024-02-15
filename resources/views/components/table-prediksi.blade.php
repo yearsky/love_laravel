@@ -12,7 +12,9 @@
     <tbody>
         @foreach ($data as $key => $value)
         @php
-        $date = \Carbon\Carbon::create($value['currentYear'], $value['currentMonth']);
+            $currentYear = $value['currentYear'];
+            $currentMonth = $value['currentMonth'];
+            $date = \Carbon\Carbon::create($currentYear, $currentMonth);
         @endphp
         <tr>
             <td>{{ $date->translatedFormat('F Y') }}</td>
@@ -20,7 +22,6 @@
             <td>{{$value['y']}}</td>
             <td>{{$value['forecasting']}}</td>
         </tr>
-        @endforeach
-
+    @endforeach
     </tbody>
 </table>

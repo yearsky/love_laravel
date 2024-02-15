@@ -104,7 +104,6 @@ class PrediksiController extends Controller
             $results = [];
             for ($i = 0; $i < $rentanWaktu; $i++) {
                 $xValue = $lastX - $i;
-
                 $jumlahxy += $lastValue * $xValue;
                 $jumlahy += $lastValue;
                 $jumlahx += $xValue;
@@ -114,12 +113,12 @@ class PrediksiController extends Controller
 
                 $results[] = [
                     'currentYear' => $tahun,
-                    'currentMonth' => $bulan - $i,
-                    'x' => $bulan - $i,
+                    'currentMonth' => $xValue,
+                    'x' => $xValue,
                     'forecasting' => $Y,
                     'a' => $a,
                     'b' => $b,
-                    'y' => $a + ($b * ($bulan - $i)),
+                    'y' => $a + ($b * ($xValue)),
                     'gap' => $xValue
                 ];
             }
