@@ -38,7 +38,7 @@ $dateForecast = !empty($lastData) ? \Carbon\Carbon::create($lastData['currentYea
         <tr>
             <td>{{ $date->translatedFormat('F Y') }}</td>
             <td>{{$value['x']}}</td>
-            <td>{{$value['jumlahy']}}</td>
+            <td>{{$value['y']}}</td>
             <td>{{$value['jumlahxy']}}</td>
             <td>{{$value['jumlahx2']}}</td>
             <td>{{$yValues}}</td>
