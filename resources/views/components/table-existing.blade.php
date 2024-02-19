@@ -71,12 +71,14 @@ $dateForecast = !empty($lastData) ? \Carbon\Carbon::create($lastData['currentYea
         </div>
     </div>
     @if(!empty($lastData))
+    @php
+    @endphp
     <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400 shadow-xl">
         <div class="text-4xl">📊</div>
         <div class="flex justify-center -mt-12">
             <div class="flex flex-col justify-center">
                 <div class="text-xl font-semibold">Forecasting</div>
-                <div>{{ $dateForecast->translatedFormat('F Y') }} : {{$lastData['forecasting']}}</div>
+                <div>{{ date('F', mktime(0, 0, 0, $lastData['currentMonth'], 10)) }} {{ $lastData['currentYear'] }} : {{$lastData['forecasting']}}</div>
             </div>
         </div>
     </div>

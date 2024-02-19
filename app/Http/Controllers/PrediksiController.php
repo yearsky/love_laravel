@@ -76,10 +76,10 @@ class PrediksiController extends Controller
                 $existingData = [
                     'currentYear' => $value->tahun,
                     'currentMonth' => $value->bulan,
-                    'jumlahxy' => $jumlahxy,
+                    'jumlahxy' => ($value->persediaan_barang) * $xValue,
                     'jumlahy' => $jumlahy,
                     'jumlahx' => $jumlahx,
-                    'jumlahx2' => $jumlahx2,
+                    'jumlahx2' => pow($xValue, 2),
                     'x' => $xValue,
                     'y' => $value->persediaan_barang
                 ];

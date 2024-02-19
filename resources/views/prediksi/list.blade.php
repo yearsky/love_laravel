@@ -133,10 +133,20 @@
             function processData(data) {
                 return {
                     labels: data.map(item => {
-                        const monthName = monthNames[item.currentMonth - 1];
-                        return `${monthName} ${item.currentYear}`;
+                        let monthIndex = item.currentMonth - 1;
+                        let year = item.currentYear;
+                        while (monthIndex >= 12) {
+                            monthIndex = monthIndex -= 12
+                            console.log(monthIndex)
+                            if(monthIndex == 11)
+                            {
+                                year -= 1;
+                            }
+                        }
+                        const monthName = monthNames[monthIndex];
+                        return `${monthName} ${year}`;
                     }),
-                    aktualData: data.map(item => item.jumlahy),
+                    aktualData: data.map(item => item.y),
                     prediksiData: data.map(item => item.a + (item.b * item.x))
                 };
             }

@@ -24,12 +24,14 @@
                 </div>
                 <div class="p-5 max-w-full ">
                     <div class="my-4">
+                        @if(Auth::user()->role == 0)
                         <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal','filterBarang')">
                             {{ __('Filters') }}
                         </x-primary-button>
                         <x-secondary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'add-barang')">
                             {{ __('Tambah Data') }}
                         </x-secondary-button>
+                        @endif
                     </div>
                     <div class="p-5 border-2 border-e-2  rounded-md  border-gray-400">
                         <!-- <x-table-barang :propsData="$listBarang" /> -->
