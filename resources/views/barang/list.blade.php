@@ -24,7 +24,7 @@
                 </div>
                 <div class="p-5 max-w-full ">
                     <div class="my-4">
-                        @if(Auth::user()->role == 0)
+                        @if(Auth::user()->role == 2)
                         <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal','filterBarang')">
                             {{ __('Filters') }}
                         </x-primary-button>
