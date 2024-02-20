@@ -28,11 +28,11 @@ $dateForecast = !empty($lastData) ? \Carbon\Carbon::create($lastData['currentYea
         @php
         $yValues = $value['a'] + ($value['b'] * $value['x']);
         $mad = abs($value['y'] - $yValues);
-        $mape = abs($mad) / 8;
-        $mse = $value['x'] - pow($value['y'],2) / 8;
-        $totalMAD += $mad;
-        $totalMAPE += $mape;
-        $totalMSE += $mse;
+        $mape = abs($mad/$value['y']) * 100;
+        $mse = pow(($value['y'] - $yValues),2);
+        $totalMAD += $mad / 8;
+        $totalMAPE += $mape / 8;
+        $totalMSE += $mse / 8;
         $date = \Carbon\Carbon::create($value['currentYear'], $value['currentMonth']);
         @endphp
         <tr>

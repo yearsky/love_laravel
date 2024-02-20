@@ -154,34 +154,44 @@
             const { labels: labelsDefault, aktualData: aktualDataDefault, prediksiData: prediksiDataDefault } = processData(defaultData);
             const { labels: labelsForecast, aktualData: aktualDataForecast, prediksiData: prediksiDataForecast } = processData(forecastData);
 
-            const configDefault = createChartConfig(labelsDefault, aktualDataDefault, prediksiDataDefault);
-            const configForecast = createChartConfig(labelsForecast, aktualDataForecast, prediksiDataForecast);
+            const configDefault = createChartConfig(labelsDefault, aktualDataDefault, prediksiDataDefault,true);
+            const configForecast = createChartConfig(labelsForecast, aktualDataForecast, prediksiDataForecast,false);
 
             new Chart(document.getElementById('display-chart-default'), configDefault);
             new Chart(document.getElementById('display-chart-forecast'), configForecast);
-        });
 
-        function createChartConfig(labels, aktualData, prediksiData) {
-            return {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
+            function createChartConfig(labels, aktualData, prediksiData, isDefaultData) {
+                    let datasets = [];
+
+                    if (isDefaultData && defaultData.length > 0) {
+                        datasets.push({
                             label: 'Aktual',
                             data: aktualData,
                             fill: false,
                             borderColor: 'rgba(255, 99, 132)',
-                        },
-                        {
-                            label: 'Prediksi',
-                            data: prediksiData,
-                            fill: false,
-                            borderColor: 'rgb(54, 162, 235)',
+                        });
+                    }
+
+                    datasets.push({
+                        label: 'Prediksi',
+                        data: prediksiData,
+                        fill: false,
+                        borderColor: 'rgb(54, 162, 235)',
+                    });
+
+                    return {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: datasets
                         }
-                    ]
-                }
-            };
-        }
+                    };
+            }
+
+        });
+
+        
+
 
 
     </script>

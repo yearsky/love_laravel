@@ -44,7 +44,11 @@
                     <section>
                         <header>
                             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                {{ __('Informasi Keluar Masuk Barang') }}
+                                @if(Auth::user()->role == 2)
+                                {{ __('Informasi Masuk Barang') }}
+                                @else
+                                {{ __('Informasi Keluar Barang') }}
+                                @endif
                             </h2>
 
                             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
@@ -58,7 +62,9 @@
                 <div class="max-w-full my-10" x-data="{ tab: window.location.hash ? window.location.hash.substring(1) : 'masuk' }" id="tab_wrapper">
                     <!-- The tabs navigation -->
                     <nav class="flex gap-x-3 my-5 justify-center">
+                        @if(Auth::user()->role == 2)
                         <a class="p-2 rounded-md" :class="{ 'bg-blue-500 text-white': tab === 'masuk', 'active': tab === 'masuk' }" @click.prevent="tab = 'masuk'; window.location.hash = 'masuk'" href="#">Masuk</a>
+                        @endif
                         @if(Auth::user()->role == 1)
                         <a class="p-2 rounded-md" :class="{ 'bg-blue-500 text-white': tab === 'keluar', 'active': tab === 'keluar' }" @click.prevent="tab = 'keluar'; window.location.hash = 'keluar'" href="#">Keluar</a>
                         @endif
